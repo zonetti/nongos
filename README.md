@@ -49,7 +49,7 @@ DELETE http://localhost:1337/users/:id
 You can also override the default methods like so:
 
 ```js
-const nongos = require('./index')
+const nongos = require('mongos')
  
 const {router, model} = nongos.resource(
   'users',
