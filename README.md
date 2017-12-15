@@ -1,4 +1,4 @@
-# Querymen
+# nongos
 
 [![JS Standard Style][standard-image]][standard-url]
 [![NPM version][npm-image]][npm-url]
@@ -102,3 +102,9 @@ nongos.config({
 ## License
 
 MIT
+
+[standard-url]: http://standardjs.com
+[standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg
+
+[npm-url]: https://npmjs.org/package/nongos
+[npm-image]: https://img.shields.io/npm/v/nongos.svg?style=flat-square
