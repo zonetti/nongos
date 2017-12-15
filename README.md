@@ -36,14 +36,19 @@ nongos.resource(
 nongos.start()
 ```
 
-Done! Now you have a fully RESTful resource out of the box. Give it a try:
+Done! Now you have a fully RESTful resource out of the box (CRUD). Give it a try:
 
-```
+```js
 GET http://localhost:1337/users
 GET http://localhost:1337/users/:id
 POST http://localhost:1337/users
 PUT http://localhost:1337/users/:id
 DELETE http://localhost:1337/users/:id
+```
+
+You can also override the default methods like so:
+
+```js
 ```
 
 ## Configuration
