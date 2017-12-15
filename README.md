@@ -49,6 +49,40 @@ DELETE http://localhost:1337/users/:id
 You can also override the default methods like so:
 
 ```js
+const nongos = require('./index')
+ 
+const {router, model} = nongos.resource(
+  'users',
+  {
+    name: {
+      type: String,
+      required: [true, 'required']
+    },
+    age: {
+      type: Number,
+      required: [true, 'required'],
+      min: [10, 'at least 10']
+    }
+  },
+  {
+    update: false,
+    delete: false
+  }
+)
+
+router.put('/:id', (req, res, next) => res.status(400).send({message: 'Nope!'}))
+ 
+nongos.start()
+```
+
+After these changes you will get:
+
+```js
+GET http://localhost:1337/users // 200
+GET http://localhost:1337/users/:id // 200
+POST http://localhost:1337/users // 200
+PUT http://localhost:1337/users/:id // 400 {"message": "Nope!"}
+DELETE http://localhost:1337/users/:id // 404
 ```
 
 ## Configuration
