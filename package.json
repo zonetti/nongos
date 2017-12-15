@@ -1,6 +1,6 @@
 {
   "name": "nongos",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "main": "index.js",
   "scripts": {
     "lint": "standard --fix"
