@@ -23,12 +23,12 @@ nongos.resource(
   {
     name: {
       type: String,
-      required: [true, 'required']
+      required: [true, 'my custom message']
     },
     age: {
       type: Number,
       required: [true, 'required'],
-      min: [10, 'at least 10']
+      min: [10, 'should be at least 10']
     }
   }
 )
