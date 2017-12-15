@@ -46,45 +46,6 @@ PUT http://localhost:1337/users/:id
 DELETE http://localhost:1337/users/:id
 ```
 
-You can also override the default methods like so:
-
-```js
-const nongos = require('mongos')
- 
-const {router, model} = nongos.resource(
-  'users',
-  {
-    name: {
-      type: String,
-      required: [true, 'required']
-    },
-    age: {
-      type: Number,
-      required: [true, 'required'],
-      min: [10, 'at least 10']
-    }
-  },
-  {
-    update: false,
-    delete: false
-  }
-)
-
-router.put('/:id', (req, res, next) => res.status(400).send({message: 'Nope!'}))
- 
-nongos.start()
-```
-
-After these changes you will get:
-
-```js
-GET http://localhost:1337/users // 200
-GET http://localhost:1337/users/:id // 200
-POST http://localhost:1337/users // 200
-PUT http://localhost:1337/users/:id // 400 {"message": "Nope!"}
-DELETE http://localhost:1337/users/:id // 404
-```
-
 ## Configuration
 
 ### Default configuration
@@ -110,7 +71,11 @@ DELETE http://localhost:1337/users/:id // 404
 }
 ```
 
-### Overriding
+For more information on how to configure the path `db.options`, check the [mongoose documentation](http://mongoosejs.com/docs/connections.html#options).
+
+For more information on how to configure the path `logger`, check the [winston repository](https://github.com/winstonjs/winston).
+
+### Changing the configuration
 
 ```js
 const nongos = require('nongos')
@@ -124,6 +89,89 @@ nongos.config({
 
 // ...
 ```
+
+## Resources
+
+### Validation
+
+Because `nongos` uses `mongoose` you are able to validate your schema using the `mongoose` built-in rules or you can also create your own.
+
+Check the full documentation at the [mongoose website](http://mongoosejs.com/docs/validation.html).
+
+### Methods
+
+You can override or disable the default resource methods and also create new methods:
+
+```js
+const nongos = require('nongos')
+ 
+const {router, model} = nongos.resource(
+  'users',
+  {
+    name: String,
+    age: Number
+  },
+  {
+    update: false,
+    delete: false
+  }
+)
+
+router.put('/:id', (req, res) => res.status(400).send({message: 'Nope!'}))
+
+router.get('/foo', (req, res) => res.send('bar'))
+
+router.post('/john-doe', (req, res, next) => {
+  model.create({name: 'John Doe', age: 50}, (err, result) => {
+    if (err) return next(err)
+    res.send(result)
+  })
+})
+ 
+nongos.start()
+```
+
+After these changes you will get:
+
+```js
+GET http://localhost:1337/users // 200
+GET http://localhost:1337/users/foo // 200 "bar"
+GET http://localhost:1337/users/:id // 200
+POST http://localhost:1337/users // 200
+POST http://localhost:1337/users/john-doe // 200 {"__v": 0, "name": "John Doe", "age": 50, "_id": "5a3320b4e99a953ff07729a3"}
+PUT http://localhost:1337/users/:id // 400 {"message": "Nope!"}
+DELETE http://localhost:1337/users/:id // 404
+```
+
+### Additional options
+
+```js
+const nongos = require('nongos')
+ 
+const {router, model} = nongos.resource(
+  'users',
+  {
+    name: String,
+    age: Number
+  },
+  {
+    list: true,
+    create: true,
+    read: true,
+    update: false,
+    delete: false,
+    keywords: {
+      path: ['name']
+    }
+  }
+)
+
+nongos.start()
+```
+
+As seen above in the [validation](#validation) block, you can use the optional third parameter of `nongos.resource()` to override the default CRUD behavior.
+
+In addition you can also configure the `keywords` feature powered by `mongoose-keywords`. Check its [documentation](https://github.com/diegohaz/mongoose-keywords) for more information on how to do so.
 
 ## Stack explained
 
