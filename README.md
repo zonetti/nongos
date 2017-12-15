@@ -90,6 +90,28 @@ nongos.config({
 // ...
 ```
 
+## Bootstrapping
+
+If you want to override the default [bootstrap](https://github.com/zonetti/nongos/blob/master/lib/bootstrap.js#L17-L25) you can use `nongos.bootstrap()`, just **be aware** that by doing so, the default bootstrap will no longer execute.
+
+```js
+const nongos = require('nongos')
+
+nongos.resource(
+  'users',
+  {
+    name: String,
+    age: Number
+  }
+)
+
+nongos.bootstrap(() => {
+  nongos.app.use(require('./my-middleware'))
+})
+
+nongos.start()
+```
+
 ## Resources
 
 ### Validation
