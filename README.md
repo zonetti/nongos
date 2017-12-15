@@ -143,6 +143,18 @@ PUT http://localhost:1337/users/:id // 400 {"message": "Nope!"}
 DELETE http://localhost:1337/users/:id // 404
 ```
 
+### Querying
+
+You can use some advanced querying thanks to `querymen`.
+
+For more information check its [documentation](https://github.com/diegohaz/querymen).
+
+```js
+GET http://localhost:1337/posts?page=2&limit=30
+GET http://localhost:1337/posts?user=foobar&fields=title,content
+GET http://localhost:1337/posts?limit=10&sort=-createdAt
+```
+
 ### Additional options
 
 As seen above in the [validation](#validation) block, you can use the optional third parameter of `nongos.resource()` to override the default CRUD behavior.
