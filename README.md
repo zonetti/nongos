@@ -145,6 +145,10 @@ DELETE http://localhost:1337/users/:id // 404
 
 ### Additional options
 
+As seen above in the [validation](#validation) block, you can use the optional third parameter of `nongos.resource()` to override the default CRUD behavior.
+
+In addition to that you can also configure the `keywords` feature powered by `mongoose-keywords`. Check its [documentation](https://github.com/diegohaz/mongoose-keywords) for more information on how to do so.
+
 ```js
 const nongos = require('nongos')
  
@@ -168,10 +172,6 @@ const {router, model} = nongos.resource(
 
 nongos.start()
 ```
-
-As seen above in the [validation](#validation) block, you can use the optional third parameter of `nongos.resource()` to override the default CRUD behavior.
-
-In addition you can also configure the `keywords` feature powered by `mongoose-keywords`. Check its [documentation](https://github.com/diegohaz/mongoose-keywords) for more information on how to do so.
 
 ## Stack explained
 
